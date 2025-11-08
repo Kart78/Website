@@ -21,6 +21,40 @@
     />
     <link rel="stylesheet" href="styles.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+      /* Logo styling - Adjust these values to change logo size */
+      :root {
+        --logo-height-desktop: 120px;  /* Change this for desktop logo size */
+        --logo-height-tablet: 100px;   /* Change this for tablet logo size */
+        --logo-height-mobile: 80px;   /* Change this for mobile logo size */
+        --logo-height-footer: 70px;   /* Change this for footer logo size */
+      }
+      
+      .main-nav .logo img {
+        height: var(--logo-height-desktop);
+        width: auto;
+        display: block;
+        transition: height 0.3s ease;
+      }
+      
+      .footer .logo img {
+        height: var(--logo-height-footer);
+        width: auto;
+        display: block;
+      }
+      
+      @media (max-width: 992px) {
+        .main-nav .logo img {
+          height: var(--logo-height-tablet);
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .main-nav .logo img {
+          height: var(--logo-height-mobile);
+        }
+      }
+    </style>
   </head>
   <body>
     <header class="top-bar">
@@ -31,7 +65,9 @@
     </header>
     <nav class="main-nav" id="top">
       <div class="container nav-container">
-        <a class="logo" href="#top">RK Notary</a>
+        <a class="logo" href="#top">
+          <img src="rk-notary-logo.png" alt="RK Notary Logo" />
+        </a>
         <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
           <span></span>
           <span></span>
@@ -255,19 +291,19 @@
         <div class="testimonial-grid">
           <figure class="testimonial">
             <blockquote>
-              “RK Notary made our refinance seamless. The notary explained each form patiently and ensured we felt confident before signing.”
+              "RK Notary made our refinance seamless. The notary explained each form patiently and ensured we felt confident before signing."
             </blockquote>
             <figcaption>— Maria &amp; Daniel P.</figcaption>
           </figure>
           <figure class="testimonial">
             <blockquote>
-              “Our family plan combines term life, whole life, and college savings. We finally have peace of mind for every milestone.”
+              "Our family plan combines term life, whole life, and college savings. We finally have peace of mind for every milestone."
             </blockquote>
             <figcaption>— The Johnson Family</figcaption>
           </figure>
           <figure class="testimonial">
             <blockquote>
-              “Transitioning my 401(k) after retirement felt overwhelming. RK Notary gave me a clear roadmap and ongoing support.”
+              "Transitioning my 401(k) after retirement felt overwhelming. RK Notary gave me a clear roadmap and ongoing support."
             </blockquote>
             <figcaption>— Robert L.</figcaption>
           </figure>
@@ -433,7 +469,7 @@
             <li><strong>Phone:</strong> (551) 689-7740</li>
             <li><strong>Email:</strong> rknotaries@gmail.com</li>
             <li><strong>Office:</strong> 9700 Sleepy Hollow Dr, Mckinney, TX 75072</li>
-            <li><strong>Office Hours:</strong> Monday – Sunday, 8:00 AM – 9:00 PM</li>
+            <li><strong>Office Hours:</strong> Monday — Sunday, 8:00 AM — 9:00 PM</li>
           </ul>
           <a class="btn secondary" href="#appointment">Free Consultation</a>
         </div>
@@ -452,7 +488,9 @@
     <footer class="footer">
       <div class="container footer-grid">
         <div>
-          <a class="logo" href="#top">RK Notary</a>
+          <a class="logo" href="#top">
+            <img src="rk-notary-logo.png" alt="RK Notary Logo" style="height: 40px;" />
+          </a>
           <p>Licensed Notary Public &amp; Life Insurance Advisor dedicated to protecting families with integrity and care.</p>
         </div>
         <div>
@@ -486,7 +524,7 @@
       </div>
       <div class="footer-bottom">
         <p>© <span id="currentYear"></span> RK Notary. All rights reserved.</p>
-        <a href="#top" class="back-to-top">Back to top ↑</a>
+        <a href="#top" class="back-to-top">Back to top →</a>
       </div>
     </footer>
 
@@ -537,4 +575,3 @@
     <script src="admin.js"></script>
   </body>
 </html>
-
