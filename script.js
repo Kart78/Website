@@ -31,6 +31,89 @@ document.addEventListener('DOMContentLoaded', () => {
   const plannerTable = document.querySelector('#planner-table tbody');
   const plannerEmpty = document.querySelector('.planner-empty');
 
+  // ============================================
+  // EMAILJS CONFIGURATION
+  // ============================================
+  // To enable email functionality:
+  // 1. Sign up at https://www.emailjs.com (free)
+  // 2. Create an email service and connect rknotaries@gmail.com
+  // 3. Create an email template with variables: {{from_name}}, {{from_email}}, {{service}}, {{message}}
+  // 4. Replace the values below with your EmailJS credentials
+  // ============================================
+  
+  const EMAILJS_CONFIG = {
+    PUBLIC_KEY: 'YOUR_PUBLIC_KEY',    // Get from EmailJS Account > API Keys
+    SERVICE_ID: 'YOUR_SERVICE_ID',    // Get from EmailJS Email Services
+    TEMPLATE_ID: 'YOUR_TEMPLATE_ID',  // Get from EmailJS Email Templates
+    TO_EMAIL: 'rknotaries@gmail.com', // Recipient email address
+    ENABLED: false // Set to true after configuring EmailJS
+  };
+
+  // Initialize EmailJS
+  if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.ENABLED) {
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+  }
+
+  // Handle Appointment Form Submission with EmailJS
+  if (appointmentForm) {
+    appointmentForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const submitButton = appointmentForm.querySelector('button[type="submit"]');
+      const originalButtonText = submitButton.textContent;
+      
+      // Disable button and show loading state
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending...';
+
+      try {
+        // Get form data
+        const formData = {
+          name: document.getElementById('name').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          service: document.getElementById('service').value,
+          message: document.getElementById('message').value.trim(),
+        };
+
+        const emailParams = {
+          to_email: EMAILJS_CONFIG.TO_EMAIL || 'rknotaries@gmail.com',
+          from_name: formData.name,
+          from_email: formData.email,
+          service: formData.service,
+          message: formData.message,
+          reply_to: formData.email,
+        };
+
+        // Send email using EmailJS if configured
+        if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.ENABLED && EMAILJS_CONFIG.SERVICE_ID !== 'YOUR_SERVICE_ID') {
+          await emailjs.send(
+            EMAILJS_CONFIG.SERVICE_ID,
+            EMAILJS_CONFIG.TEMPLATE_ID,
+            emailParams
+          );
+
+          alert('Thank you! Your appointment request has been sent to RK Notary. We will contact you shortly at ' + formData.email + '.');
+          appointmentForm.reset();
+        } else {
+          // Fallback: Send email using mailto link if EmailJS is not configured
+          const subject = encodeURIComponent(`Appointment Request - ${formData.service}`);
+          const body = encodeURIComponent(
+            `Name: ${formData.name}\nEmail: ${formData.email}\nService: ${formData.service}\n\nMessage:\n${formData.message}`
+          );
+          window.location.href = `mailto:rknotaries@gmail.com?subject=${subject}&body=${body}`;
+          alert('Thank you! Your email client should open. If not, please email us directly at rknotaries@gmail.com');
+        }
+      } catch (error) {
+        console.error('Error sending email:', error);
+        alert('There was an error sending your request. Please call us at (551) 689-7740 or email rknotaries@gmail.com directly.');
+      } finally {
+        // Re-enable button
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+    });
+  }
+
   const handleSubmit = (form, message) => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -38,13 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
       form.reset();
     });
   };
-
-  if (appointmentForm) {
-    handleSubmit(
-      appointmentForm,
-      'Thank you for contacting RK Notary. We will confirm your appointment shortly.'
-    );
-  }
 
   if (subscribeForm) {
     handleSubmit(subscribeForm, 'Thanks for subscribing to RK Notary insights!');

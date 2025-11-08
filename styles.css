@@ -155,6 +155,19 @@ ul {
   box-shadow: 0 12px 24px rgba(212, 175, 55, 0.35);
 }
 
+.btn:disabled,
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn:disabled:hover,
+.btn[disabled]:hover {
+  transform: none !important;
+  box-shadow: 0 10px 20px rgba(212, 175, 55, 0.25);
+}
+
 .btn.secondary {
   border: 2px solid var(--navy);
   color: var(--navy);
