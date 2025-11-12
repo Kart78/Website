@@ -38,8 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     PUBLIC_KEY: 'mSidDHZYLKjkpTA2I',
     SERVICE_ID: 'service_z5nglir',
     TEMPLATE_ID: 'template_mqk92qm',
-    TO_EMAIL: 'rknotaries@gmail.com',
-    ENABLED: true  // Changed from TRUE to true (lowercase boolean)
+    ENABLED: true
   };
 
   // Initialize EmailJS
@@ -60,56 +59,71 @@ document.addEventListener('DOMContentLoaded', () => {
       submitButton.textContent = 'Sending...';
 
       try {
-        // Get form data
-        const formData = {
-          name: document.getElementById('name').value.trim(),
-          email: document.getElementById('email').value.trim(),
-          phone: document.getElementById('phone').value.trim(),
-          service: document.getElementById('service').value,
-          message: document.getElementById('message').value.trim(),
-        };
+        // Get form values directly
+        const nameValue = document.getElementById('name').value.trim();
+        const emailValue = document.getElementById('email').value.trim();
+        const phoneValue = document.getElementById('phone').value.trim();
+        const serviceValue = document.getElementById('service').value;
+        const messageValue = document.getElementById('message').value.trim();
 
-        // Validate email
-        if (!formData.email || !formData.email.includes('@')) {
+        // Validate all required fields
+        if (!nameValue) {
+          alert('Please enter your full name.');
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+          return;
+        }
+
+        if (!emailValue || !emailValue.includes('@')) {
           alert('Please enter a valid email address.');
           submitButton.disabled = false;
           submitButton.textContent = originalButtonText;
           return;
         }
 
-        // Validate phone
-        if (!formData.phone || formData.phone.length < 10) {
-          alert('Please enter a valid phone number.');
+        if (!phoneValue || phoneValue.length < 10) {
+          alert('Please enter a valid phone number (at least 10 digits).');
           submitButton.disabled = false;
           submitButton.textContent = originalButtonText;
           return;
         }
 
+        if (!serviceValue) {
+          alert('Please select a service.');
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+          return;
+        }
+
+        // Prepare email parameters
         const emailParams = {
-          from_name: formData.name,
-          from_email: formData.email,
-          user_email: formData.email,
-          phone: formData.phone,
-          service: formData.service,
-          message: formData.message || 'No message provided',
-          reply_to: formData.email,
+          from_name: nameValue,
+          from_email: emailValue,
+          phone: phoneValue,
+          service: serviceValue,
+          message: messageValue || 'No additional message provided',
+          reply_to: emailValue
         };
 
-        // Send email using EmailJS if configured
+        console.log('Sending email with params:', emailParams); // Debug log
+
+        // Send email using EmailJS
         if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.ENABLED) {
-          await emailjs.send(
+          const response = await emailjs.send(
             EMAILJS_CONFIG.SERVICE_ID,
             EMAILJS_CONFIG.TEMPLATE_ID,
             emailParams
           );
 
-          alert('Thank you! Your appointment request has been sent to RK Notary. We will contact you shortly at ' + formData.email + '.');
+          console.log('EmailJS response:', response); // Debug log
+
+          alert('Thank you! Your appointment request has been sent to RK Notary. We will contact you shortly at ' + emailValue + ' or ' + phoneValue + '.');
           appointmentForm.reset();
         } else {
           // Fallback: Send email using mailto link if EmailJS is not configured
-          const subject = encodeURIComponent(`Appointment Request - ${formData.service}`);
+          const subject = encodeURIComponent(`Appointment Request - ${serviceValue}`);
           const body = encodeURIComponent(
-            `Name: ${formData.name}\nEmail: ${formData.email}\nService: ${formData.service}\n\nMessage:\n${formData.message}`
+            `Name: ${nameValue}\nEmail: ${emailValue}\nPhone: ${phoneValue}\nService: ${serviceValue}\n\nMessage:\n${messageValue}`
           );
           window.location.href = `mailto:rknotaries@gmail.com?subject=${subject}&body=${body}`;
           alert('Thank you! Your email client should open. If not, please email us directly at rknotaries@gmail.com');
@@ -147,23 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        const emailParams = {
-          to_email: EMAILJS_CONFIG.TO_EMAIL,
-          subscriber_email: subscriberEmail,
-        };
-
-        if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.ENABLED) {
-          await emailjs.send(
-            EMAILJS_CONFIG.SERVICE_ID,
-            EMAILJS_CONFIG.TEMPLATE_ID,
-            emailParams
-          );
-          alert('Thanks for subscribing to RK Notary insights!');
-          subscribeForm.reset();
-        } else {
-          alert('Thanks for subscribing to RK Notary insights!');
-          subscribeForm.reset();
-        }
+        alert('Thanks for subscribing to RK Notary insights!');
+        subscribeForm.reset();
       } catch (error) {
         console.error('Error subscribing:', error);
         alert('There was an error. Please try again or email us directly at rknotaries@gmail.com');
