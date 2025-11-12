@@ -29,9 +29,9 @@
 // 5. Update the values below:
 
 const EMAILJS_CONFIG = {
-  PUBLIC_KEY: 'YOUR_PUBLIC_KEY', // Replace with your EmailJS Public Key
-  SERVICE_ID: 'YOUR_SERVICE_ID',  // Replace with your EmailJS Service ID
-  TEMPLATE_ID: 'YOUR_TEMPLATE_ID', // Replace with your EmailJS Template ID
+  PUBLIC_KEY: 'mSidDHZYLKjkpTA2I', // Replace with your EmailJS Public Key
+  SERVICE_ID: 'service_z5nglir',  // Replace with your EmailJS Service ID
+  TEMPLATE_ID: 'template_mqk92qm', // Replace with your EmailJS Template ID
   TO_EMAIL: 'rknotaries@gmail.com' // Recipient email (already configured)
 };
 

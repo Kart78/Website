@@ -42,11 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // ============================================
   
   const EMAILJS_CONFIG = {
-    PUBLIC_KEY: 'YOUR_PUBLIC_KEY',    // Get from EmailJS Account > API Keys
-    SERVICE_ID: 'YOUR_SERVICE_ID',    // Get from EmailJS Email Services
-    TEMPLATE_ID: 'YOUR_TEMPLATE_ID',  // Get from EmailJS Email Templates
-    TO_EMAIL: 'rknotaries@gmail.com', // Recipient email address
-    ENABLED: false // Set to true after configuring EmailJS
+    PUBLIC_KEY: 'mSidDHZYLKjkpTA2I', // Replace with your EmailJS Public Key
+  SERVICE_ID: 'service_z5nglir',  // Replace with your EmailJS Service ID
+  TEMPLATE_ID: 'template_mqk92qm', // Replace with your EmailJS Template ID
+  TO_EMAIL: 'rknotaries@gmail.com' // Recipient email (already configured)
+    ENABLED: TRUE // Set to true after configuring EmailJS
   };
 
   // Initialize EmailJS
