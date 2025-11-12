@@ -348,33 +348,37 @@
           </p>
         </div>
         <form class="appointment-form" action="#" method="post">
-          <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" placeholder="Full Name" required />
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Email Address" required />
-          </div>
-          <div class="form-group">
-            <label for="service">Service Interest</label>
-            <select id="service" name="service" required>
-              <option value="" disabled selected>Select a service</option>
-              <option>In-person Notary Services</option>
-              <option>Term Life Insurance</option>
-              <option>Whole Life Insurance</option>
-              <option>Final Expense Insurance</option>
-              <option>Financial Planning &amp; 401(k) Rollovers</option>
-              <option>Family Protection &amp; Estate Guidance</option>
-              <option>Educational Consultation</option>
-            </select>
-          </div>
-          <div class="form-group full">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="4" placeholder="How can we help you?"></textarea>
-          </div>
-          <button type="submit" class="btn primary">Book Appointment</button>
-        </form>
+  <div class="form-group">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" placeholder="Full Name" required />
+  </div>
+  <div class="form-group">
+    <label for="email">Email *</label>
+    <input type="email" id="email" name="email" placeholder="Email Address" required />
+  </div>
+  <div class="form-group">
+    <label for="phone">Phone Number *</label>
+    <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required pattern="[0-9\-\(\)\s]+" minlength="10" />
+  </div>
+  <div class="form-group">
+    <label for="service">Service Interest</label>
+    <select id="service" name="service" required>
+      <option value="" disabled selected>Select a service</option>
+      <option>In-person Notary Services</option>
+      <option>Term Life Insurance</option>
+      <option>Whole Life Insurance</option>
+      <option>Final Expense Insurance</option>
+      <option>Financial Planning &amp; 401(k) Rollovers</option>
+      <option>Family Protection &amp; Estate Guidance</option>
+      <option>Educational Consultation</option>
+    </select>
+  </div>
+  <div class="form-group full">
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="4" placeholder="How can we help you?"></textarea>
+  </div>
+  <button type="submit" class="btn primary">Book Appointment</button>
+</form>
       </div>
     </section>
 

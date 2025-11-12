@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = {
           name: document.getElementById('name').value.trim(),
           email: document.getElementById('email').value.trim(),
+          phone: document.getElementById('phone').value.trim(),
           service: document.getElementById('service').value,
           message: document.getElementById('message').value.trim(),
         };
@@ -76,10 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
+        // Validate phone
+        if (!formData.phone || formData.phone.length < 10) {
+          alert('Please enter a valid phone number.');
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+          return;
+        }
+
         const emailParams = {
           from_name: formData.name,
           from_email: formData.email,
           user_email: formData.email,
+          phone: formData.phone,
           service: formData.service,
           message: formData.message || 'No message provided',
           reply_to: formData.email,
