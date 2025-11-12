@@ -77,9 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const emailParams = {
-          to_email: EMAILJS_CONFIG.TO_EMAIL,
           from_name: formData.name,
           from_email: formData.email,
+          user_email: formData.email,
           service: formData.service,
           message: formData.message || 'No message provided',
           reply_to: formData.email,
