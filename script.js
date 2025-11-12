@@ -34,19 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ============================================
   // EMAILJS CONFIGURATION
   // ============================================
-  // To enable email functionality:
-  // 1. Sign up at https://www.emailjs.com (free)
-  // 2. Create an email service and connect rknotaries@gmail.com
-  // 3. Create an email template with variables: {{from_name}}, {{from_email}}, {{service}}, {{message}}
-  // 4. Replace the values below with your EmailJS credentials
-  // ============================================
-  
   const EMAILJS_CONFIG = {
-    PUBLIC_KEY: 'mSidDHZYLKjkpTA2I', // Replace with your EmailJS Public Key
-  SERVICE_ID: 'service_z5nglir',  // Replace with your EmailJS Service ID
-  TEMPLATE_ID: 'template_mqk92qm', // Replace with your EmailJS Template ID
-  TO_EMAIL: 'rknotaries@gmail.com' // Recipient email (already configured)
-    ENABLED: TRUE // Set to true after configuring EmailJS
+    PUBLIC_KEY: 'mSidDHZYLKjkpTA2I',
+    SERVICE_ID: 'service_z5nglir',
+    TEMPLATE_ID: 'template_mqk92qm',
+    TO_EMAIL: 'rknotaries@gmail.com',
+    ENABLED: true  // Changed from TRUE to true (lowercase boolean)
   };
 
   // Initialize EmailJS
@@ -75,17 +68,25 @@ document.addEventListener('DOMContentLoaded', () => {
           message: document.getElementById('message').value.trim(),
         };
 
+        // Validate email
+        if (!formData.email || !formData.email.includes('@')) {
+          alert('Please enter a valid email address.');
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+          return;
+        }
+
         const emailParams = {
-          to_email: EMAILJS_CONFIG.TO_EMAIL || 'rknotaries@gmail.com',
+          to_email: EMAILJS_CONFIG.TO_EMAIL,
           from_name: formData.name,
           from_email: formData.email,
           service: formData.service,
-          message: formData.message,
+          message: formData.message || 'No message provided',
           reply_to: formData.email,
         };
 
         // Send email using EmailJS if configured
-        if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.ENABLED && EMAILJS_CONFIG.SERVICE_ID !== 'YOUR_SERVICE_ID') {
+        if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.ENABLED) {
           await emailjs.send(
             EMAILJS_CONFIG.SERVICE_ID,
             EMAILJS_CONFIG.TEMPLATE_ID,
@@ -114,18 +115,56 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const handleSubmit = (form, message) => {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      alert(message);
-      form.reset();
-    });
-  };
-
+  // Subscribe Form Handler
   if (subscribeForm) {
-    handleSubmit(subscribeForm, 'Thanks for subscribing to RK Notary insights!');
+    subscribeForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const submitButton = subscribeForm.querySelector('button[type="submit"]');
+      const emailInput = document.getElementById('subscribe-email');
+      const originalButtonText = submitButton.textContent;
+      
+      submitButton.disabled = true;
+      submitButton.textContent = 'Joining...';
+
+      try {
+        const subscriberEmail = emailInput.value.trim();
+
+        if (!subscriberEmail || !subscriberEmail.includes('@')) {
+          alert('Please enter a valid email address.');
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+          return;
+        }
+
+        const emailParams = {
+          to_email: EMAILJS_CONFIG.TO_EMAIL,
+          subscriber_email: subscriberEmail,
+        };
+
+        if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.ENABLED) {
+          await emailjs.send(
+            EMAILJS_CONFIG.SERVICE_ID,
+            EMAILJS_CONFIG.TEMPLATE_ID,
+            emailParams
+          );
+          alert('Thanks for subscribing to RK Notary insights!');
+          subscribeForm.reset();
+        } else {
+          alert('Thanks for subscribing to RK Notary insights!');
+          subscribeForm.reset();
+        }
+      } catch (error) {
+        console.error('Error subscribing:', error);
+        alert('There was an error. Please try again or email us directly at rknotaries@gmail.com');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+    });
   }
 
+  // Planner functionality
   if (plannerForm && plannerTable && plannerEmpty && plannerCancelBtn) {
     const plannerClient = document.getElementById('planner-client');
     const plannerService = document.getElementById('planner-service');
@@ -254,4 +293,3 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPlannerRows();
   }
 });
-
